@@ -1,6 +1,9 @@
-#.ipynb_checkpoints/
-#__pycache__/
+.ipynb_checkpoints/
+__pycache__/
 #.idea
+*.wav
+vocaloid/
+impulses/
 _generated_samples/
 _train_samples/
 logs/

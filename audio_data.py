@@ -125,9 +125,9 @@ class WavenetDataset(torch.utils.data.Dataset):
     def __len__(self):
         test_length = math.floor(self._length / self._test_stride)
         if self.train:
-            return self._length - test_length
+            return int((self._length - test_length)/50)
         else:
-            return test_length
+            return int((test_length)/500)
 
 
 def quantize_data(data, classes):

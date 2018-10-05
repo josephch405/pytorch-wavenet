@@ -9,10 +9,10 @@ print('model: ', model)
 print('receptive field: ', model.receptive_field)
 print('parameter count: ', model.parameter_count())
 
-data = WavenetDataset(dataset_file='train_samples/bach_chaconne/dataset.npz',
+data = WavenetDataset(dataset_file='vocaloid/dataset.npz',
                       item_length=model.receptive_field + model.output_length - 1,
                       target_length=model.output_length,
-                      file_location='train_samples/bach_chaconne',
+                      file_location='vocaloid',
                       test_stride=20)
 print('the dataset has ' + str(len(data)) + ' items')
 
@@ -24,7 +24,7 @@ def prog_callback(step, total_steps):
     print(str(100 * step // total_steps) + "% generated")
 
 
-generated = model.generate_fast(num_samples=16000,
+generated = model.generate_fast(num_samples=16000 * 20,
                                  first_samples=start_data,
                                  progress_callback=prog_callback,
                                  progress_interval=1000,

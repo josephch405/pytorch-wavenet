@@ -25,10 +25,10 @@ model = WaveNetModel(layers=8,
 #model = load_latest_model_from('snapshots')
 #model = torch.load('snapshots/snapshot_2017-12-10_09-48-19')
 
-data = WavenetDataset(dataset_file='train_samples/saber/dataset.npz',
+data = WavenetDataset(dataset_file='train_samples/vocaloid/dataset.npz',
                       item_length=model.receptive_field + model.output_length - 1,
                       target_length=model.output_length,
-                      file_location='train_samples/saber',
+                      file_location='train_samples/vocaloid',
                       test_stride=20)
 
 # torch.save(model, 'untrained_model')
@@ -67,7 +67,7 @@ trainer = WavenetTrainer(model=model,
                            weight_decay=0.1,
                            logger=logger,
                            snapshot_path='snapshots',
-                           snapshot_name='saber_model',
+                           snapshot_name='vocaloid',
                            snapshot_interval=500)
 
 print('start training...')

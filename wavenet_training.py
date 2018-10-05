@@ -7,7 +7,7 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 from model_logging import Logger
 from wavenet_modules import *
-
+from tqdm.autonotebook import tqdm
 
 def print_last_loss(opt):
     print("loss: ", opt.losses[-1])
@@ -55,7 +55,7 @@ class WavenetTrainer:
         self.dataloader = torch.utils.data.DataLoader(self.dataset,
                                                       batch_size=batch_size,
                                                       shuffle=True,
-                                                      num_workers=8,
+                                                      num_workers=3,
                                                       pin_memory=False)
         step = continue_training_at_step
         for current_epoch in range(epochs):
@@ -94,7 +94,7 @@ class WavenetTrainer:
         self.dataset.train = False
         total_loss = 0
         accurate_classifications = 0
-        for (x, target) in iter(self.dataloader):
+        for (x, target) in tqdm(iter(self.dataloader)):
             x = Variable(x.type(self.dtype))
             target = Variable(target.view(-1).type(self.ltype))
 
@@ -105,8 +105,8 @@ class WavenetTrainer:
             predictions = torch.max(output, 1)[1].view(-1)
             correct_pred = torch.eq(target, predictions)
             accurate_classifications += torch.sum(correct_pred).data[0]
-        # print("validate model with " + str(len(self.dataloader.dataset)) + " samples")
-        # print("average loss: ", total_loss / len(self.dataloader))
+        print("validate model with " + str(len(self.dataloader.dataset)) + " samples")
+        print("average loss: ", total_loss / len(self.dataloader))
         avg_loss = total_loss / len(self.dataloader)
         avg_accuracy = accurate_classifications / (len(self.dataset)*self.dataset.target_length)
         self.dataset.train = True
