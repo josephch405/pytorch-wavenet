@@ -28,4 +28,11 @@ def read_mp3(file_path, as_float = True):
 
 def normalize_impulse(imp_data):
     abs_data = abs(imp_data)
-    return abs_data / sum(abs_data)
+    data = imp_data / sum(abs_data)
+    return data
+
+def normalize_impulse_max(imp_data):
+    abs_data = abs(imp_data)
+    data = imp_data / abs_data.max()
+    data[0] = 1
+    return data
